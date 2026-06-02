@@ -142,7 +142,7 @@ const Network = () => {
                         {user.name}
                       </Typography>
                       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                        {user.title || 'ProConnect Member'}
+                        {user.title || 'Software Engineer'}
                       </Typography>
                       <Box sx={{ mt: 'auto', width: '100%' }}>
                         <Button 
