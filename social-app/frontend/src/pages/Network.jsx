@@ -36,12 +36,8 @@ const Network = () => {
         setFollowing(initialFollowing);
       } catch (err) {
         console.error('Failed to fetch network users', err);
-        // Fallback for visual testing if API fails
-        setUsers([
-          { _id: '1', name: 'Alex Developer', email: 'alex@example.com' },
-          { _id: '2', name: 'Sarah Designer', email: 'sarah@example.com' },
-          { _id: '3', name: 'Ravi Manager', email: 'ravi@example.com' }
-        ]);
+        // Only show real users. If API fails, users remains empty array.
+        setUsers([]);
       } finally {
         setLoading(false);
       }
