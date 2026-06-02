@@ -11,8 +11,8 @@ const User = require('../models/User');
 router.get('/', async (req, res) => {
   try {
     const posts = await Post.find()
-      .populate('userId', 'avatarUrl')
-      .populate('comments.userId', 'avatarUrl')
+      .populate('userId', 'avatarUrl title')
+      .populate('comments.userId', 'avatarUrl title')
       .sort({ createdAt: -1 });
     res.json(posts);
   } catch (err) {

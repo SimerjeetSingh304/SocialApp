@@ -117,6 +117,7 @@ const PostCard = ({ post, onPostUpdated, isSavedView, onUnsave }) => {
   const authorId = typeof post.userId === 'object' ? post.userId?._id : post.userId;
   const authorAvatar = typeof post.userId === 'object' ? post.userId?.avatarUrl : '';
   const isMyPost = authorId === user?.id || post.username === user?.name;
+  const authorTitle = typeof post.userId === 'object' ? post.userId?.title : (isMyPost ? user?.title : '');
 
   return (
     <>
@@ -139,9 +140,12 @@ const PostCard = ({ post, onPostUpdated, isSavedView, onUnsave }) => {
           }
           title={<Typography variant="subtitle2" sx={{ fontWeight: 600, fontSize: '0.95rem', color: 'text.primary' }}>{post.username}</Typography>}
           subheader={
-            <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.2 }}>
-              <Typography variant="caption" color="text.secondary">{formatTimestamp(post.createdAt)} •</Typography>
-              <Public sx={{ fontSize: 14, color: 'text.secondary', ml: 0.5 }} />
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              {authorTitle && <Typography variant="caption" color="text.secondary" sx={{ mt: -0.2 }}>{authorTitle}</Typography>}
+              <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.2 }}>
+                <Typography variant="caption" color="text.secondary">{formatTimestamp(post.createdAt)} •</Typography>
+                <Public sx={{ fontSize: 14, color: 'text.secondary', ml: 0.5 }} />
+              </Box>
             </Box>
           }
           sx={{ pb: 1, pt: 2, px: 2 }}
