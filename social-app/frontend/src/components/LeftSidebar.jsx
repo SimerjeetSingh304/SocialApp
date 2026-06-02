@@ -82,12 +82,8 @@ const LeftSidebar = () => {
             {uploading ? <CircularProgress size={16} /> : <PhotoCamera sx={{ fontSize: 16, color: 'text.secondary' }} />}
           </IconButton>
         </Box>
-        <Typography variant="subtitle1" sx={{ fontWeight: 600, color: 'text.primary', lineHeight: 1.2 }}>
-          {user?.name || 'Alex Rivera'}
-        </Typography>
-        <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5 }}>
-          Software Engineer
-        </Typography>
+        <Typography variant="subtitle1" sx={{ fontWeight: 600, mt: 1, lineHeight: 1.2 }}>{user?.name || 'User'}</Typography>
+        <Typography variant="caption" color="text.secondary" sx={{ mb: 2 }}>{user?.email || 'Welcome to ProConnect'}</Typography>
       </Box>
 
       <List sx={{ px: 0, py: 0, mb: 4 }}>

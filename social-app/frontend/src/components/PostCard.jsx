@@ -139,12 +139,9 @@ const PostCard = ({ post, onPostUpdated, isSavedView, onUnsave }) => {
           }
           title={<Typography variant="subtitle2" sx={{ fontWeight: 600, fontSize: '0.95rem', color: 'text.primary' }}>{post.username}</Typography>}
           subheader={
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography variant="caption" color="text.secondary" sx={{ mt: -0.2 }}>Software Engineer</Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.2 }}>
-                <Typography variant="caption" color="text.secondary">{formatTimestamp(post.createdAt)} •</Typography>
-                <Public sx={{ fontSize: 14, color: 'text.secondary', ml: 0.5 }} />
-              </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.2 }}>
+              <Typography variant="caption" color="text.secondary">{formatTimestamp(post.createdAt)} •</Typography>
+              <Public sx={{ fontSize: 14, color: 'text.secondary', ml: 0.5 }} />
             </Box>
           }
           sx={{ pb: 1, pt: 2, px: 2 }}
