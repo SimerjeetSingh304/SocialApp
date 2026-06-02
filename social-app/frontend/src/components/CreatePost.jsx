@@ -104,16 +104,6 @@ const CreatePost = ({ onPostCreated }) => {
           <Box 
             component="form" 
             onSubmit={handleSubmit}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            sx={{ 
-              border: isDragging ? '2px dashed #0a66c2' : '2px dashed transparent', 
-              transition: 'all 0.2s', 
-              p: isDragging ? 2 : 0, 
-              borderRadius: 2,
-              bgcolor: isDragging ? 'rgba(10, 102, 194, 0.05)' : 'transparent'
-            }}
           >
             {error && <Typography color="error" variant="body2" mb={1}>{error}</Typography>}
             
@@ -153,7 +143,47 @@ const CreatePost = ({ onPostCreated }) => {
             </Box>
             
             <Collapse in={isExpanded}>
-              <Box sx={{ mt: 2, mb: 1, pl: 8 }}>
+              <Box sx={{ mt: 2, mb: 1, pl: { xs: 0, sm: 8 } }}>
+                {!imageUrl ? (
+                  <Box 
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    onClick={() => fileInputRef.current?.click()}
+                    sx={{
+                      border: `2px dashed ${isDragging ? '#0a66c2' : '#ccc'}`,
+                      borderRadius: '8px',
+                      padding: '20px',
+                      textAlign: 'center',
+                      cursor: 'pointer',
+                      bgcolor: isDragging ? 'rgba(10, 102, 194, 0.05)' : '#fafafa',
+                      transition: 'all 0.2s ease',
+                      mb: 2,
+                      '&:hover': {
+                        bgcolor: 'rgba(10, 102, 194, 0.05)',
+                        borderColor: '#0a66c2'
+                      }
+                    }}
+                  >
+                    <Typography color="text.secondary" sx={{ fontWeight: 500 }}>
+                      {uploadingImage ? 'Uploading...' : '📁 Drag & drop image here or click to upload'}
+                    </Typography>
+                  </Box>
+                ) : (
+                  <Box sx={{ position: 'relative', mb: 2, borderRadius: 2, overflow: 'hidden', border: '1px solid #eee' }}>
+                    <img src={imageUrl} alt="Upload preview" style={{ width: '100%', maxHeight: '300px', objectFit: 'contain', display: 'block', backgroundColor: '#f9f9f9' }} />
+                    <Button 
+                      size="small" 
+                      variant="contained" 
+                      color="error" 
+                      onClick={() => setImageUrl('')}
+                      sx={{ position: 'absolute', top: 8, right: 8, minWidth: 0, width: 32, height: 32, borderRadius: '50%', p: 0 }}
+                    >
+                      ×
+                    </Button>
+                  </Box>
+                )}
+                
                 <TextField
                   fullWidth
                   size="small"
