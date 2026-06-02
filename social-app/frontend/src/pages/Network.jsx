@@ -25,6 +25,15 @@ const Network = () => {
         // Exclude current user just in case backend didn't
         const otherUsers = res.data.filter(u => u._id !== currentUser?.id);
         setUsers(otherUsers);
+
+        // Initialize following state from backend isConnected flag
+        const initialFollowing = {};
+        otherUsers.forEach(u => {
+          if (u.isConnected) {
+            initialFollowing[u._id] = true;
+          }
+        });
+        setFollowing(initialFollowing);
       } catch (err) {
         console.error('Failed to fetch network users', err);
         // Fallback for visual testing if API fails
@@ -42,11 +51,26 @@ const Network = () => {
     }
   }, [currentUser]);
 
-  const toggleFollow = (id) => {
+  const toggleFollow = async (id) => {
+    // Optimistic UI update
     setFollowing(prev => ({
       ...prev,
       [id]: !prev[id]
     }));
+
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}/api/users/connect/${id}`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+    } catch (err) {
+      console.error('Failed to toggle connection', err);
+      // Revert on failure
+      setFollowing(prev => ({
+        ...prev,
+        [id]: !prev[id]
+      }));
+    }
   };
 
   const filteredUsers = users.filter(u => u.name.toLowerCase().includes(searchQuery.toLowerCase()));

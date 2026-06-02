@@ -27,8 +27,17 @@ const upload = multer({ storage: storage });
 // @access  Private
 router.get('/', auth, async (req, res) => {
   try {
-    const users = await User.find({ _id: { $ne: req.user.id } }).select('name email _id createdAt avatarUrl');
-    res.json(users);
+    const me = await User.findById(req.user.id);
+    const myConnections = me.connections || [];
+
+    const users = await User.find({ _id: { $ne: req.user.id } }).select('name email _id createdAt avatarUrl').lean();
+    
+    const usersWithConnectionStatus = users.map(u => ({
+      ...u,
+      isConnected: myConnections.some(id => id.toString() === u._id.toString())
+    }));
+    
+    res.json(usersWithConnectionStatus);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -66,6 +75,30 @@ router.put('/profile', auth, async (req, res) => {
     if (name) user.name = name;
     await user.save();
     res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   POST api/users/connect/:id
+// @desc    Toggle connection with another user
+// @access  Private
+router.post('/connect/:id', auth, async (req, res) => {
+  try {
+    const me = await User.findById(req.user.id);
+    const targetUserId = req.params.id;
+
+    if (me.connections.includes(targetUserId)) {
+      // Disconnect
+      me.connections = me.connections.filter(id => id.toString() !== targetUserId);
+    } else {
+      // Connect
+      me.connections.push(targetUserId);
+    }
+
+    await me.save();
+    res.json({ connections: me.connections });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
