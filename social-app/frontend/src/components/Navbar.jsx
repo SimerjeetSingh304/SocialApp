@@ -96,7 +96,7 @@ const Navbar = () => {
           <Box sx={{ display: { xs: 'none', sm: 'flex' }, position: 'absolute', left: '50%', transform: 'translateX(-50%)', alignItems: 'center' }}>
             <Typography 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              sx={{ fontWeight: 600, color: 'text.secondary', cursor: 'pointer', textDecoration: 'none', '&:hover': { color: 'primary.main' }, fontSize: '1.1rem' }}
+              sx={{ fontWeight: 600, color: 'primary.main', cursor: 'pointer', textDecoration: 'none', '&:hover': { opacity: 0.8 }, fontSize: '1.1rem' }}
             >
               Feed
             </Typography>
