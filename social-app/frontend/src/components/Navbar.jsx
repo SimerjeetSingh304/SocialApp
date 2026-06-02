@@ -71,11 +71,6 @@ const Navbar = () => {
   const handleNotifClick = (event) => setAnchorEl(event.currentTarget);
   const handleNotifClose = () => setAnchorEl(null);
 
-  const getTabValue = () => {
-    if (location.pathname === '/') return 0;
-    if (location.pathname === '/network') return 1;
-    return 0; // default Feed
-  };
 
   const formatTime = (date) => {
     const d = new Date(date);
@@ -98,13 +93,6 @@ const Navbar = () => {
             </Box>
           </Box>
 
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, height: '100%' }}>
-            <Tabs value={getTabValue()} textColor="primary" indicatorColor="primary" sx={{ '& .MuiTab-root': { minWidth: 80, textTransform: 'none', fontWeight: 600, fontSize: '0.9rem' } }}>
-              <Tab label="Feed" component={Link} to="/" />
-              <Tab label="Network" component={Link} to="/network" />
-              <Tab label="Messages" onClick={() => setMessagesOpen(true)} />
-            </Tabs>
-          </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <IconButton size="small" sx={{ color: 'text.secondary' }} onClick={handleNotifClick}>
@@ -112,9 +100,7 @@ const Navbar = () => {
                 <NotificationsOutlined />
               </Badge>
             </IconButton>
-            <IconButton size="small" sx={{ color: 'text.secondary' }} onClick={() => setMessagesOpen(true)}>
-              <ChatOutlined />
-            </IconButton>
+
             <Avatar 
               sx={{ width: 32, height: 32, bgcolor: 'primary.main', ml: 1, fontSize: '1rem', cursor: 'pointer' }}
               src={user?.avatarUrl || ''}
