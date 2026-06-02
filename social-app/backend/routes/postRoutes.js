@@ -4,6 +4,18 @@ const auth = require('../middleware/authMiddleware');
 
 const Post = require('../models/Post');
 const User = require('../models/User');
+const multer = require('multer');
+const path = require('path');
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, 'post-' + req.user.id + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage: storage });
 
 // @route   GET api/posts
 // @desc    Get all posts
@@ -57,6 +69,22 @@ router.post('/', auth, async (req, res) => {
 
     const post = await newPost.save();
     res.json(post);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   POST api/posts/upload
+// @desc    Upload an image for a post
+// @access  Private
+router.post('/upload', auth, upload.single('image'), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ msg: 'No file uploaded' });
+    }
+    const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    res.json({ imageUrl });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
