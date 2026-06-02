@@ -80,9 +80,9 @@ const Navbar = () => {
   return (
     <>
       <AppBar position="fixed" sx={{ bgcolor: 'white', color: 'text.primary', boxShadow: 'none', borderBottom: '1px solid rgba(0,0,0,0.08)', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-        <Toolbar sx={{ minHeight: '52px !important', maxWidth: 1128, width: '100%', mx: 'auto', px: { xs: 2, md: 0 }, display: 'flex', justifyContent: 'space-between' }}>
+        <Toolbar sx={{ minHeight: '52px !important', maxWidth: 1128, width: '100%', mx: 'auto', px: { xs: 2, md: 0 }, display: 'flex', justifyContent: 'space-between', position: 'relative' }}>
           
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', flex: 1 }}>
             <Typography variant="h6" component={Link} to="/" sx={{ fontWeight: 'bold', color: 'primary.main', mr: 2, fontSize: '1.25rem', textDecoration: 'none' }}>
               ProConnect
             </Typography>
@@ -93,31 +93,29 @@ const Navbar = () => {
             </Box>
           </Box>
 
-
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+          <Box sx={{ display: { xs: 'none', sm: 'flex' }, position: 'absolute', left: '50%', transform: 'translateX(-50%)', alignItems: 'center' }}>
             <Typography 
-              component={Link} 
-              to="/" 
-              sx={{ fontWeight: 600, color: 'text.secondary', textDecoration: 'none', '&:hover': { color: 'primary.main' } }}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              sx={{ fontWeight: 600, color: 'text.secondary', cursor: 'pointer', textDecoration: 'none', '&:hover': { color: 'primary.main' }, fontSize: '1.1rem' }}
             >
               Feed
             </Typography>
+          </Box>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <IconButton size="small" sx={{ color: 'text.secondary' }} onClick={handleNotifClick}>
-                <Badge badgeContent={notifications.length} color="error">
-                  <NotificationsOutlined />
-                </Badge>
-              </IconButton>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1, justifyContent: 'flex-end' }}>
+            <IconButton size="small" sx={{ color: 'text.secondary' }} onClick={handleNotifClick}>
+              <Badge badgeContent={notifications.length} color="error">
+                <NotificationsOutlined />
+              </Badge>
+            </IconButton>
 
-              <Avatar 
-                sx={{ width: 32, height: 32, bgcolor: 'primary.main', ml: 1, fontSize: '1rem', cursor: 'pointer' }}
-                src={user?.avatarUrl || ''}
-                onClick={() => setEditProfileOpen(true)}
-              >
-                {!user?.avatarUrl && (user?.name?.charAt(0).toUpperCase() || 'U')}
-              </Avatar>
-            </Box>
+            <Avatar 
+              sx={{ width: 32, height: 32, bgcolor: 'primary.main', ml: 1, fontSize: '1rem', cursor: 'pointer' }}
+              src={user?.avatarUrl || ''}
+              onClick={() => setEditProfileOpen(true)}
+            >
+              {!user?.avatarUrl && (user?.name?.charAt(0).toUpperCase() || 'U')}
+            </Avatar>
           </Box>
 
         </Toolbar>
