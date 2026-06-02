@@ -3,13 +3,14 @@ import axios from 'axios';
 import { AppBar, Toolbar, Typography, InputBase, Box, Avatar, IconButton, Badge, Tab, Tabs, Menu, MenuItem } from '@mui/material';
 import { Search as SearchIcon, NotificationsOutlined, ChatOutlined } from '@mui/icons-material';
 import { AuthContext } from '../context/AuthContext';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import MessagesDrawer from './MessagesDrawer';
 import EditProfileModal from './EditProfileModal';
 
 const Navbar = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
+  const navigate = useNavigate();
   
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
@@ -95,7 +96,12 @@ const Navbar = () => {
 
           <Box sx={{ display: { xs: 'none', sm: 'flex' }, position: 'absolute', left: '50%', transform: 'translateX(-50%)', alignItems: 'center' }}>
             <Typography 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={() => {
+                if (location.pathname !== '/') {
+                  navigate('/');
+                }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
               sx={{ fontWeight: 600, color: 'primary.main', cursor: 'pointer', textDecoration: 'none', '&:hover': { opacity: 0.8 }, fontSize: '1.1rem' }}
             >
               Feed
