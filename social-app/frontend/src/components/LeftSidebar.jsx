@@ -9,8 +9,7 @@ const LeftSidebar = () => {
   const menuItems = [
     { text: 'Home', path: '/', icon: <Home /> },
     { text: 'My Network', path: '/network', icon: <PeopleOutlined /> },
-    { text: 'Saved Posts', path: '/saved', icon: <BookmarkBorder /> },
-    { text: 'Analytics', path: '/analytics', icon: <BarChartOutlined /> }
+    { text: 'Saved Posts', path: '/saved', icon: <BookmarkBorder /> }
   ];
 
   const handleCreatePost = () => {

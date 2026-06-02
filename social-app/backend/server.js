@@ -25,5 +25,10 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/posts', require('./routes/postRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 
+// Health check route
+app.get('/', (req, res) => {
+  res.json({ success: true, message: 'ProConnect API is running successfully.' });
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
