@@ -10,11 +10,27 @@ const User = require('../models/User');
 // @access  Public
 router.get('/', async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const totalPosts = await Post.countDocuments();
+
     const posts = await Post.find()
       .populate('userId', 'avatarUrl title')
       .populate('comments.userId', 'avatarUrl title')
-      .sort({ createdAt: -1 });
-    res.json(posts);
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const hasMore = totalPosts > (page * limit);
+
+    res.json({
+      posts,
+      totalPosts,
+      currentPage: page,
+      hasMore
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

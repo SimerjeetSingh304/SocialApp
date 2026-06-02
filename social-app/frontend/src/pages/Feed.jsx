@@ -1,31 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, CircularProgress, Container, Divider, Typography } from '@mui/material';
+import { Box, CircularProgress, Container, Divider, Typography, Button, Card } from '@mui/material';
 import Navbar from '../components/Navbar';
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
 import Footer from '../components/Footer';
 import CreatePost from '../components/CreatePost';
 import PostCard from '../components/PostCard';
+import PostSkeleton from '../components/PostSkeleton';
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [sortOption, setSortOption] = useState('Top');
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (pageNum = 1) => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}/api/posts`);
-      setPosts(res.data);
-      setLoading(false);
+      if (pageNum === 1) setLoading(true);
+      else setLoadingMore(true);
+
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}/api/posts?page=${pageNum}&limit=10`);
+      
+      if (pageNum === 1) {
+        setPosts(res.data.posts);
+      } else {
+        setPosts(prev => [...prev, ...res.data.posts]);
+      }
+      
+      setHasMore(res.data.hasMore);
+      setPage(pageNum);
     } catch (err) {
       console.error(err);
+    } finally {
       setLoading(false);
+      setLoadingMore(false);
     }
   };
 
   useEffect(() => {
-    fetchPosts();
+    fetchPosts(1);
   }, []);
 
   const handlePostCreated = (newPost) => {
@@ -91,13 +107,37 @@ const Feed = () => {
             </Box>
 
             {loading ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-                <CircularProgress />
+              <Box>
+                <PostSkeleton />
+                <PostSkeleton />
+                <PostSkeleton />
               </Box>
+            ) : posts.length === 0 ? (
+              <Card sx={{ p: 4, textAlign: 'center', borderRadius: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Typography sx={{ fontSize: 48, mb: 1 }}>📝</Typography>
+                <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>No posts yet! Be the first to share something.</Typography>
+                <Button variant="contained" sx={{ mt: 2, borderRadius: 24, textTransform: 'none', fontWeight: 600, px: 4 }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                  Create Post
+                </Button>
+              </Card>
             ) : (
-              sortedPosts.map(post => (
-                <PostCard key={post._id} post={post} onPostUpdated={handlePostUpdated} />
-              ))
+              <>
+                {sortedPosts.map(post => (
+                  <PostCard key={post._id} post={post} onPostUpdated={handlePostUpdated} />
+                ))}
+                
+                {hasMore && (
+                  <Button 
+                    fullWidth 
+                    variant="outlined" 
+                    onClick={() => fetchPosts(page + 1)}
+                    disabled={loadingMore}
+                    sx={{ mt: 2, mb: 4, borderRadius: 24, textTransform: 'none', fontWeight: 600, py: 1 }}
+                  >
+                    {loadingMore ? <CircularProgress size={24} /> : 'Load More'}
+                  </Button>
+                )}
+              </>
             )}
           </Box>
 
