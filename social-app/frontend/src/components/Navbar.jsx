@@ -5,6 +5,7 @@ import { Search as SearchIcon, NotificationsOutlined, ChatOutlined } from '@mui/
 import { AuthContext } from '../context/AuthContext';
 import { Link, useLocation } from 'react-router-dom';
 import MessagesDrawer from './MessagesDrawer';
+import ProfileDrawer from './ProfileDrawer';
 
 const Navbar = () => {
   const { user } = useContext(AuthContext);
@@ -14,6 +15,7 @@ const Navbar = () => {
   const [notifications, setNotifications] = useState([]);
   
   const [messagesOpen, setMessagesOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,6 +88,13 @@ const Navbar = () => {
         <Toolbar sx={{ minHeight: '52px !important', maxWidth: 1128, width: '100%', mx: 'auto', px: { xs: 2, md: 0 }, display: 'flex', justifyContent: 'space-between' }}>
           
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar 
+              src={user?.avatarUrl || ''}
+              sx={{ width: 36, height: 36, bgcolor: 'primary.main', mr: 1.5, cursor: 'pointer', fontSize: '1.2rem' }}
+              onClick={() => setProfileOpen(true)}
+            >
+              {!user?.avatarUrl && (user?.name?.charAt(0).toUpperCase() || 'U')}
+            </Avatar>
             <Typography variant="h6" component={Link} to="/" sx={{ fontWeight: 'bold', color: 'primary.main', mr: 2, fontSize: '1.25rem', textDecoration: 'none' }}>
               ProConnect
             </Typography>
@@ -153,6 +162,7 @@ const Navbar = () => {
       </Menu>
 
       <MessagesDrawer open={messagesOpen} onClose={() => setMessagesOpen(false)} />
+      <ProfileDrawer open={profileOpen} onClose={() => setProfileOpen(false)} />
     </>
   );
 };

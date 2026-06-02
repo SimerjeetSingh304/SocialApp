@@ -70,9 +70,11 @@ router.post('/avatar', auth, upload.single('avatar'), async (req, res) => {
 // @access  Private
 router.put('/profile', auth, async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, title, dob } = req.body;
     const user = await User.findById(req.user.id);
     if (name) user.name = name;
+    if (title !== undefined) user.title = title;
+    if (dob !== undefined) user.dob = dob || null;
     await user.save();
     res.json(user);
   } catch (err) {

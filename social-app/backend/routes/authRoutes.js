@@ -41,7 +41,7 @@ router.post('/signup', async (req, res) => {
       { expiresIn: 360000 },
       (err, token) => {
         if (err) throw err;
-        res.json({ token, user: { id: user.id, name: user.name, email: user.email, avatarUrl: user.avatarUrl } });
+        res.json({ token, user: { id: user.id, name: user.name, email: user.email, avatarUrl: user.avatarUrl, title: user.title, dob: user.dob } });
       }
     );
   } catch (err) {
@@ -81,7 +81,7 @@ router.post('/login', async (req, res) => {
       { expiresIn: 360000 },
       (err, token) => {
         if (err) throw err;
-        res.json({ token, user: { id: user.id, name: user.name, email: user.email, avatarUrl: user.avatarUrl } });
+        res.json({ token, user: { id: user.id, name: user.name, email: user.email, avatarUrl: user.avatarUrl, title: user.title, dob: user.dob } });
       }
     );
   } catch (err) {

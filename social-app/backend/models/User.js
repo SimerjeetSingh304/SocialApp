@@ -22,6 +22,14 @@ const UserSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
+  title: {
+    type: String,
+    default: ''
+  },
+  dob: {
+    type: Date,
+    default: null
+  },
   createdAt: {
     type: Date,
     default: Date.now
