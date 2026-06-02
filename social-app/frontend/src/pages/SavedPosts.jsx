@@ -12,8 +12,8 @@ const SavedPosts = () => {
 
   const fetchSavedPosts = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}/api/posts`);
-      const allPosts = res.data;
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}/api/posts?limit=1000`);
+      const allPosts = res.data.posts || [];
       const savedIds = JSON.parse(localStorage.getItem('savedPosts')) || [];
       
       const saved = allPosts.filter(p => savedIds.includes(p._id));
