@@ -85,7 +85,7 @@ const RightSidebar = () => {
                     </ListItemAvatar>
                     <ListItemText 
                       primary={<Typography variant="subtitle2" sx={{ fontWeight: 600, lineHeight: 1.2 }}>{user.name}</Typography>}
-                      secondary={<Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>{user.email}</Typography>}
+                      secondary={<Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>{user.title || 'ProConnect Member'}</Typography>}
                       sx={{ m: 0 }}
                     />
                   </Box>
