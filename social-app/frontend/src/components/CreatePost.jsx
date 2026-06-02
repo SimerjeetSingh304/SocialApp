@@ -135,12 +135,7 @@ const CreatePost = ({ onPostCreated }) => {
         </CardContent>
       </Card>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
-        <Divider sx={{ flexGrow: 1 }} />
-        <Typography variant="caption" color="text.secondary" sx={{ mx: 1, fontWeight: 500 }}>
-          Sort by: <Box component="span" sx={{ color: 'text.primary', fontWeight: 600, cursor: 'pointer' }}>Top</Box>
-        </Typography>
-      </Box>
+
     </Box>
   );
 };

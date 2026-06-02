@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, CircularProgress, Container } from '@mui/material';
+import { Box, CircularProgress, Container, Divider, Typography } from '@mui/material';
 import Navbar from '../components/Navbar';
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
@@ -11,6 +11,7 @@ import PostCard from '../components/PostCard';
 const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [sortOption, setSortOption] = useState('Top');
 
   const fetchPosts = async () => {
     try {
@@ -39,6 +40,15 @@ const Feed = () => {
     }
   };
 
+  const sortedPosts = [...posts].sort((a, b) => {
+    if (sortOption === 'Latest') {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    } else {
+      // Both Top and Most Liked sort by likes count descending
+      return b.likes.length - a.likes.length;
+    }
+  });
+
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
       <Navbar />
@@ -55,12 +65,37 @@ const Feed = () => {
           <Box sx={{ flexGrow: 1, maxWidth: 540, width: '100%' }}>
             <CreatePost onPostCreated={handlePostCreated} />
             
+            <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
+              <Divider sx={{ flexGrow: 1 }} />
+              <Typography variant="caption" color="text.secondary" sx={{ ml: 2, mr: 0.5, fontWeight: 500 }}>
+                Sort by:
+              </Typography>
+              <select 
+                value={sortOption} 
+                onChange={(e) => setSortOption(e.target.value)}
+                style={{ 
+                  border: 'none', 
+                  backgroundColor: 'transparent', 
+                  fontWeight: 600, 
+                  color: 'rgba(0, 0, 0, 0.87)', 
+                  cursor: 'pointer',
+                  outline: 'none',
+                  fontSize: '0.75rem',
+                  fontFamily: 'inherit'
+                }}
+              >
+                <option value="Top">Top</option>
+                <option value="Latest">Latest</option>
+                <option value="Most Liked">Most Liked</option>
+              </select>
+            </Box>
+
             {loading ? (
               <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
                 <CircularProgress />
               </Box>
             ) : (
-              posts.map(post => (
+              sortedPosts.map(post => (
                 <PostCard key={post._id} post={post} onPostUpdated={handlePostUpdated} />
               ))
             )}
