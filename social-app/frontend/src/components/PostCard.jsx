@@ -206,7 +206,7 @@ const PostCard = ({ post, onPostUpdated, isSavedView, onUnsave }) => {
             )}
           </Box>
           <Typography variant="caption" color="text.secondary">
-            {post.comments.length} comments • 0 reposts
+            {post.comments.length} comments
           </Typography>
         </Box>
 
