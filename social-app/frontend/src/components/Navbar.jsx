@@ -94,20 +94,30 @@ const Navbar = () => {
           </Box>
 
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <IconButton size="small" sx={{ color: 'text.secondary' }} onClick={handleNotifClick}>
-              <Badge badgeContent={notifications.length} color="error">
-                <NotificationsOutlined />
-              </Badge>
-            </IconButton>
-
-            <Avatar 
-              sx={{ width: 32, height: 32, bgcolor: 'primary.main', ml: 1, fontSize: '1rem', cursor: 'pointer' }}
-              src={user?.avatarUrl || ''}
-              onClick={() => setEditProfileOpen(true)}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+            <Typography 
+              component={Link} 
+              to="/" 
+              sx={{ fontWeight: 600, color: 'text.secondary', textDecoration: 'none', '&:hover': { color: 'primary.main' } }}
             >
-              {!user?.avatarUrl && (user?.name?.charAt(0).toUpperCase() || 'U')}
-            </Avatar>
+              Feed
+            </Typography>
+
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <IconButton size="small" sx={{ color: 'text.secondary' }} onClick={handleNotifClick}>
+                <Badge badgeContent={notifications.length} color="error">
+                  <NotificationsOutlined />
+                </Badge>
+              </IconButton>
+
+              <Avatar 
+                sx={{ width: 32, height: 32, bgcolor: 'primary.main', ml: 1, fontSize: '1rem', cursor: 'pointer' }}
+                src={user?.avatarUrl || ''}
+                onClick={() => setEditProfileOpen(true)}
+              >
+                {!user?.avatarUrl && (user?.name?.charAt(0).toUpperCase() || 'U')}
+              </Avatar>
+            </Box>
           </Box>
 
         </Toolbar>
