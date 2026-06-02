@@ -119,9 +119,28 @@ const PostCard = ({ post, onPostUpdated, isSavedView, onUnsave }) => {
   const isMyPost = authorId === user?.id || post.username === user?.name;
   const authorTitle = typeof post.userId === 'object' ? post.userId?.title : (isMyPost ? user?.title : '');
 
+  let actualText = post.text || '';
+  let originalAuthor = null;
+  const repostRegex = /♻️ Reposted from ([^\n]+)\n\n/g;
+  let match;
+  
+  while ((match = repostRegex.exec(actualText)) !== null) {
+    originalAuthor = match[1];
+  }
+  
+  if (originalAuthor) {
+    actualText = actualText.replace(/♻️ Reposted from [^\n]+\n\n/g, '');
+  }
+
   return (
-    <>
-      <Card sx={{ mb: 2, borderRadius: 2 }}>
+    <Box sx={{ mb: 2 }}>
+      {originalAuthor && (
+        <Box sx={{ display: 'flex', alignItems: 'center', color: '#666', fontSize: '13px', mb: '4px', ml: 1, fontWeight: 500 }}>
+          <Repeat sx={{ fontSize: 16, mr: 0.5 }} />
+          Reposted from {originalAuthor}
+        </Box>
+      )}
+      <Card sx={{ borderRadius: 2 }}>
         <CardHeader
           avatar={
             <Avatar src={authorAvatar} sx={{ bgcolor: avatarColor, width: 48, height: 48 }}>
@@ -159,10 +178,10 @@ const PostCard = ({ post, onPostUpdated, isSavedView, onUnsave }) => {
           )}
         </Menu>
         
-        {post.text && (
+        {actualText && (
           <CardContent sx={{ pt: 0, pb: 1, px: 2 }}>
             <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap', fontSize: '0.9rem', color: 'text.primary' }}>
-              {post.text}
+              {actualText}
             </Typography>
           </CardContent>
         )}
@@ -284,7 +303,7 @@ const PostCard = ({ post, onPostUpdated, isSavedView, onUnsave }) => {
         onClose={() => setSnackbarOpen(false)}
         message={snackbarMessage}
       />
-    </>
+    </Box>
   );
 };
 
