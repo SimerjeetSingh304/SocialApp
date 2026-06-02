@@ -5,7 +5,7 @@ import { Search as SearchIcon, NotificationsOutlined, ChatOutlined } from '@mui/
 import { AuthContext } from '../context/AuthContext';
 import { Link, useLocation } from 'react-router-dom';
 import MessagesDrawer from './MessagesDrawer';
-import ProfileDrawer from './ProfileDrawer';
+import EditProfileModal from './EditProfileModal';
 
 const Navbar = () => {
   const { user } = useContext(AuthContext);
@@ -15,7 +15,7 @@ const Navbar = () => {
   const [notifications, setNotifications] = useState([]);
   
   const [messagesOpen, setMessagesOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
+  const [editProfileOpen, setEditProfileOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -117,8 +117,8 @@ const Navbar = () => {
             </IconButton>
             <Avatar 
               sx={{ width: 32, height: 32, bgcolor: 'primary.main', ml: 1, fontSize: '1rem', cursor: 'pointer' }}
-              onClick={() => setProfileOpen(true)}
               src={user?.avatarUrl || ''}
+              onClick={() => setEditProfileOpen(true)}
             >
               {!user?.avatarUrl && (user?.name?.charAt(0).toUpperCase() || 'U')}
             </Avatar>
@@ -159,7 +159,7 @@ const Navbar = () => {
       </Menu>
 
       <MessagesDrawer open={messagesOpen} onClose={() => setMessagesOpen(false)} />
-      <ProfileDrawer open={profileOpen} onClose={() => setProfileOpen(false)} />
+      <EditProfileModal open={editProfileOpen} onClose={() => setEditProfileOpen(false)} />
     </>
   );
 };
