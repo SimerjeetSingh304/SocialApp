@@ -88,13 +88,6 @@ const Navbar = () => {
         <Toolbar sx={{ minHeight: '52px !important', maxWidth: 1128, width: '100%', mx: 'auto', px: { xs: 2, md: 0 }, display: 'flex', justifyContent: 'space-between' }}>
           
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Avatar 
-              src={user?.avatarUrl || ''}
-              sx={{ width: 36, height: 36, bgcolor: 'primary.main', mr: 1.5, cursor: 'pointer', fontSize: '1.2rem' }}
-              onClick={() => setProfileOpen(true)}
-            >
-              {!user?.avatarUrl && (user?.name?.charAt(0).toUpperCase() || 'U')}
-            </Avatar>
             <Typography variant="h6" component={Link} to="/" sx={{ fontWeight: 'bold', color: 'primary.main', mr: 2, fontSize: '1.25rem', textDecoration: 'none' }}>
               ProConnect
             </Typography>
@@ -122,8 +115,12 @@ const Navbar = () => {
             <IconButton size="small" sx={{ color: 'text.secondary' }} onClick={() => setMessagesOpen(true)}>
               <ChatOutlined />
             </IconButton>
-            <Avatar sx={{ width: 32, height: 32, bgcolor: 'primary.main', ml: 1, fontSize: '1rem', cursor: 'pointer' }}>
-              {user?.name?.charAt(0).toUpperCase() || 'U'}
+            <Avatar 
+              sx={{ width: 32, height: 32, bgcolor: 'primary.main', ml: 1, fontSize: '1rem', cursor: 'pointer' }}
+              onClick={() => setProfileOpen(true)}
+              src={user?.avatarUrl || ''}
+            >
+              {!user?.avatarUrl && (user?.name?.charAt(0).toUpperCase() || 'U')}
             </Avatar>
           </Box>
 

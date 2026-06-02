@@ -65,7 +65,7 @@ const ProfileDrawer = ({ open, onClose }) => {
   };
 
   return (
-    <Drawer anchor="left" open={open} onClose={onClose} PaperProps={{ sx: { width: 350, p: 3 } }}>
+    <Drawer anchor="right" open={open} onClose={onClose} PaperProps={{ sx: { width: 350, p: 3 } }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Edit Profile</Typography>
         <IconButton onClick={onClose} size="small"><Close /></IconButton>
