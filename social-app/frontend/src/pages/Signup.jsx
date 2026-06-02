@@ -89,16 +89,6 @@ const Signup = () => {
           {loading ? 'Creating Account...' : 'Create Account'}
         </Button>
 
-        <Divider sx={{ my: 4, color: 'text.secondary', fontSize: '0.8rem', fontWeight: 600 }}>
-          OR CONTINUE WITH
-        </Divider>
-
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          <Button fullWidth variant="outlined" startIcon={<Google sx={{ color: '#EA4335' }} />} sx={{ borderRadius: 1.5, py: 1, color: 'text.primary', borderColor: '#ddd' }}>
-          </Button>
-          <Button fullWidth variant="outlined" startIcon={<GitHub sx={{ color: '#000' }} />} sx={{ borderRadius: 1.5, py: 1, color: 'text.primary', borderColor: '#ddd' }}>
-          </Button>
-        </Box>
       </Box>
     </AuthLayout>
   );
