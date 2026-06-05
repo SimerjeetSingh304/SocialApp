@@ -8,11 +8,12 @@ import MessagesDrawer from './MessagesDrawer';
 import EditProfileModal from './EditProfileModal';
 
 const Navbar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   
   const [anchorEl, setAnchorEl] = useState(null);
+  const [profileAnchorEl, setProfileAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
   
   const [messagesOpen, setMessagesOpen] = useState(false);
@@ -118,7 +119,7 @@ const Navbar = () => {
             <Avatar 
               sx={{ width: 32, height: 32, bgcolor: 'primary.main', ml: 1, fontSize: '1rem', cursor: 'pointer' }}
               src={user?.avatarUrl || ''}
-              onClick={() => setEditProfileOpen(true)}
+              onClick={(e) => setProfileAnchorEl(e.currentTarget)}
             >
               {!user?.avatarUrl && (user?.name?.charAt(0).toUpperCase() || 'U')}
             </Avatar>
@@ -156,6 +157,21 @@ const Navbar = () => {
             </MenuItem>
           ))
         )}
+      </Menu>
+
+      {/* Profile Dropdown */}
+      <Menu
+        anchorEl={profileAnchorEl}
+        open={Boolean(profileAnchorEl)}
+        onClose={() => setProfileAnchorEl(null)}
+        PaperProps={{ sx: { width: 200 } }}
+      >
+        <MenuItem onClick={() => { setProfileAnchorEl(null); setEditProfileOpen(true); }}>
+          Edit Profile
+        </MenuItem>
+        <MenuItem onClick={() => { setProfileAnchorEl(null); logout(); }}>
+          <Typography color="error">Logout</Typography>
+        </MenuItem>
       </Menu>
 
       <MessagesDrawer open={messagesOpen} onClose={() => setMessagesOpen(false)} />
